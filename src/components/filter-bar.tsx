@@ -11,6 +11,7 @@ const FilterContainer = styled.div`
 	> select {
 		flex: 1;
 
+		cursor: pointer;
 		outline: none;
 		border: none;
 		border-radius: 24px;

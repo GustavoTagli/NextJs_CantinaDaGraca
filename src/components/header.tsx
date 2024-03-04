@@ -1,5 +1,3 @@
-"use client"
-
 import { Storefront } from "@phosphor-icons/react"
 import styled from "styled-components"
 import { PrimaryInputWSearchIcon } from "./primary-input"
@@ -25,11 +23,13 @@ const ContainerHeader = styled.header`
 	}
 `
 
-const Title = styled.h1`
+const Title = styled.a`
 	font-size: 30px;
 	color: #fff;
-	weight: 800;
+	font-weight: 800;
 	text-align: left;
+
+	text-decoration: none;
 `
 
 const HeaderDetail = styled.span`
@@ -62,7 +62,7 @@ export default function Header() {
 		<header>
 			<ContainerHeader>
 				<div>
-					<Title>
+					<Title href="/">
 						Cantina <br />
 						da <br />
 						Graça

@@ -1,7 +1,9 @@
 :root {
-	--bg-primary: #f5f5f5;
+	--bg-primary: #fff;
 	--bg-gradient-blue: linear-gradient(90deg, #1e3a8a 0%, #0ea5e9 159.74%);
 	--text-dark: #27272a;
+	--text-blue: #2563eb;
+	--border-dark: rgba(39, 39, 42, 0.3);
 }
 
 * {

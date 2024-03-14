@@ -1,16 +1,13 @@
-import type { Metadata } from "next"
+"use client"
+
 import { Montserrat } from "next/font/google"
 import "./globals.css"
-import { Footer } from "@/components/footer"
+import { DefaultProviders } from "@/components/default-providers"
 
 const montserrat = Montserrat({
 	weight: ["300", "400", "500", "600", "700", "800"],
 	subsets: ["latin"]
 })
-
-export const metadata: Metadata = {
-	title: "Cantina da graça"
-}
 
 export default function RootLayout({
 	children
@@ -20,8 +17,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={montserrat.className}>
-				{children}
-				<Footer />
+				<DefaultProviders>{children}</DefaultProviders>
 			</body>
 		</html>
 	)

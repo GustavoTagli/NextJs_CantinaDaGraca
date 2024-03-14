@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import { CardProduct } from "./card-product"
-import { useDataBase } from "@/hooks/useDataBase"
+import { useProducts } from "@/hooks/useProducts"
 
 const ContainerProducts = styled.div`
 	display: flex;
@@ -9,19 +9,20 @@ const ContainerProducts = styled.div`
 
 	> h1 {
 		font-family: inherit;
-		font-size: 20px;
+		font-size: 24px;
 		margin-bottom: 12px;
 		weight: 600;
 	}
 `
 
 export function ListProducts() {
-	const { products } = useDataBase()
+	const { data, isLoading } = useProducts()
 
+	if (isLoading) return <p>Carregando...</p>
 	return (
 		<ContainerProducts>
 			<h1>Produtos</h1>
-			{products.map((product) => (
+			{data?.map((product) => (
 				<CardProduct
 					key={product.id}
 					id={product.id}

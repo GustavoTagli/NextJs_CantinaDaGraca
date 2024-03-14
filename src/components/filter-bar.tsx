@@ -7,6 +7,7 @@ const FilterContainer = styled.div`
 
 	display: flex;
 	gap: 12px;
+	width: 100%;
 
 	> select {
 		flex: 1;
@@ -16,26 +17,32 @@ const FilterContainer = styled.div`
 		border: none;
 		border-radius: 24px;
 		height: 28px;
-		padding-left: 12px;
 
 		color: var(--text-dark);
 		font-family: inherit;
 		font-size: 12px;
+
+		@media (min-width: ${(props) => props.theme.mediumMobileBreakpoint}) {
+			height: 36px;
+			padding-left: 12px;
+
+			font-size: 14px;
+		}
 	}
 `
 
 export function FilterBar() {
-	const { categories } = useDataBase()
+	// const { categories } = useDataBase()
 
 	return (
 		<FilterContainer>
-			<FilterBy title="Categoria" options={categories} />
+			{/* <FilterBy title="Categoria" options={} /> */}
 			<FilterBy
 				title="Ordenar"
 				options={[
 					{ id: "1", name: "Mais vendidos" },
-					{ id: "2", name: "Menor - maior preço" },
-					{ id: "3", name: "Maior - menor preço" },
+					{ id: "2", name: "Preço: Maior - menor" },
+					{ id: "3", name: "Preço: Menor - maior" },
 					{ id: "4", name: "Mais recentes" }
 				]}
 			/>

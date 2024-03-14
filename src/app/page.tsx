@@ -1,14 +1,17 @@
 "use client"
 
 import { ListProducts } from "@/components/list-products"
-import styles from "./page.module.css"
 import Header from "@/components/header"
+import { Footer } from "@/components/footer"
 
 export default function Home() {
 	return (
-		<main className={styles.main}>
-			<Header />
-			<ListProducts />
-		</main>
+		<>
+			<main>
+				<Header />
+				<ListProducts />
+			</main>
+			<Footer />
+		</>
 	)
 }

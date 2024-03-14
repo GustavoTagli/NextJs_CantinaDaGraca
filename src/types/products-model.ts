@@ -4,6 +4,7 @@ export interface ProductModel {
 	description: string
 	price: number
 	quantityInStock?: number
+	quantity?: number
 	categoryId: string
 	image: string
 }

@@ -1,7 +1,7 @@
 "use client"
 
-import { HouseLine, ShoppingCart, SquaresFour } from "@phosphor-icons/react"
-import { useRouter } from "next/navigation"
+import { HouseLine, SquaresFour } from "@phosphor-icons/react"
+import { useRouter, usePathname } from "next/navigation"
 import styled from "styled-components"
 import { CartControl } from "./cart-control"
 
@@ -13,8 +13,10 @@ const TagFooter = styled.footer`
 	position: fixed;
 	bottom: 0;
 
-	height: 44px;
+	z-index: 100;
+
 	width: 100%;
+	padding: 10px 0;
 
 	border-top: 0.5px solid var(--border-dark);
 	background-color: var(--bg-primary);
@@ -26,17 +28,22 @@ const TagFooter = styled.footer`
 		justify-content: center;
 		align-items: center;
 
-		font-size: 10px;
+		font-size: 12px;
 		font-weight: 500;
 		color: var(--text-dark);
-		> svg {
+		user-select: none;
+
+		svg {
 			color: var(--text-dark);
+			width: 28px;
+			height: 28px;
 		}
 	}
 `
 
 export function Footer() {
 	const router = useRouter()
+	let path = usePathname()
 
 	const handleNavigate = (e: any) => {
 		router.push("/" + e.currentTarget.id)
@@ -44,12 +51,14 @@ export function Footer() {
 
 	return (
 		<TagFooter>
-			<div onClick={handleNavigate} id="home">
-				<HouseLine size={22} weight="fill" />
+			<div onClick={handleNavigate} id="/">
+				<HouseLine weight={path === "/" ? "fill" : "regular"} />
 				<p>Home</p>
 			</div>
 			<div onClick={handleNavigate} id="categories">
-				<SquaresFour size={22} />
+				<SquaresFour
+					weight={path.includes("/categories") ? "fill" : "regular"}
+				/>
 				<p>Categorias</p>
 			</div>
 			<div onClick={handleNavigate} id="cart">

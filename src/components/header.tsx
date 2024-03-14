@@ -6,7 +6,7 @@ import { FilterBar } from "./filter-bar"
 const ContainerHeader = styled.header`
 	display: flex;
 	flex-direction: column;
-	padding: 20px;
+	padding: 24px;
 	border-radius: 0 0 40px 0;
 
 	background-image: var(--bg-gradient-blue);
@@ -19,17 +19,30 @@ const ContainerHeader = styled.header`
 			outline: 50px solid #fff;
 			outline-offset: 8px;
 			border-radius: 50%;
+			width: 80px;
+			height: 80px;
+
+			@media (min-width: ${(props) => props.theme.mediumMobileBreakpoint}) {
+				width: 105px;
+				height: 105px;
+				outline: 60px solid #fff;
+			}
 		}
 	}
 `
 
 const Title = styled.a`
-	font-size: 30px;
+	font-size: 32px;
 	color: #fff;
 	font-weight: 800;
 	text-align: left;
+	z-index: 1;
 
 	text-decoration: none;
+
+	@media (min-width: ${(props) => props.theme.mediumMobileBreakpoint}) {
+		font-size: 40px;
+	}
 `
 
 const HeaderDetail = styled.span`
@@ -41,7 +54,6 @@ const HeaderDetail = styled.span`
 	z-index: -1;
 
 	background-image: var(--bg-gradient-blue);
-	box-shadow: -100px 0 0 0 rgba(0, 0, 0, 0);
 
 	&::before {
 		content: "";
@@ -67,7 +79,7 @@ export default function Header() {
 						da <br />
 						Graça
 					</Title>
-					<Storefront size={80} color="#fff" />
+					<Storefront color="#fff" />
 				</div>
 				<PrimaryInputWSearchIcon placeholder="Qual a sua fome de hoje?" />
 				<FilterBar />

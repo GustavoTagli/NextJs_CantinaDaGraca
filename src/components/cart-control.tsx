@@ -1,5 +1,6 @@
 import { useLocalStorage } from "@/hooks/useLocalStorage"
 import { ShoppingCart } from "@phosphor-icons/react"
+import { usePathname } from "next/navigation"
 import styled from "styled-components"
 
 const CartCount = styled.div`
@@ -27,10 +28,11 @@ const Container = styled.div`
 
 export function CartControl() {
 	const { value } = useLocalStorage("cart-items", [])
+	const path = usePathname()
 
 	return (
 		<Container>
-			<ShoppingCart size={22} />
+			<ShoppingCart weight={path === "/cart" ? "fill" : "regular"} />
 			{value.length > 0 && (
 				<CartCount>
 					<p>{value.length}</p>

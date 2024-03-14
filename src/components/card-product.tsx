@@ -18,8 +18,8 @@ const Card = styled.div`
 	border-bottom: 0.5px solid var(--border-dark);
 
 	> figure {
-		width: 90px;
-		height: 70px;
+		width: 110px;
+		height: 80px;
 
 		> img {
 			border-radius: 6px;
@@ -36,11 +36,11 @@ const ProductInfo = styled.div`
 
 	font-family: inherit;
 	font-weight: 300;
-	font-size: 12px;
+	font-size: 14px;
 	color: var(--text-dark);
 
 	> h3 {
-		font-size: 14px;
+		font-size: 16px;
 		font-weight: 500;
 	}
 

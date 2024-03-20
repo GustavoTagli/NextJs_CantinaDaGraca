@@ -1,8 +1,10 @@
 :root {
-	--bg-primary: #fff;
+	--primary-color: #ffffff;
+	--secondary-color: #2563eb;
 	--bg-gradient-blue: linear-gradient(90deg, #1e3a8a 0%, #0ea5e9 159.74%);
-	--text-dark: #27272a;
-	--text-blue: #2563eb;
+	--color-dark: #27272a;
+	--color-dark-light: #3a3a3a;
+	--color-gray: #71717a;
 	--border-dark: rgba(39, 39, 42, 0.3);
 }
 
@@ -21,4 +23,28 @@ body {
 main {
 	min-height: 100vh;
 	padding-bottom: 80px;
+}
+
+h1 {
+	margin-bottom: 12px;
+
+	font-size: 24px;
+	font-weight: 600;
+	color: --var(text-dark);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span {
+	color: var(--color-dark);
+	font-family: inherit;
+}
+
+button {
+	cursor: pointer;
 }

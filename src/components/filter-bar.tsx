@@ -1,6 +1,6 @@
-import { useDataBase } from "@/hooks/useDataBase"
 import { FilterBy } from "./filter-by"
 import styled from "styled-components"
+import { useCategories } from "@/hooks/useCategories"
 
 const FilterContainer = styled.div`
 	margin-top: 12px;
@@ -18,7 +18,7 @@ const FilterContainer = styled.div`
 		border-radius: 24px;
 		height: 28px;
 
-		color: var(--text-dark);
+		color: var(--color-dark);
 		font-family: inherit;
 		font-size: 12px;
 
@@ -32,11 +32,14 @@ const FilterContainer = styled.div`
 `
 
 export function FilterBar() {
-	// const { categories } = useDataBase()
+	const { data } = useCategories()
 
 	return (
 		<FilterContainer>
-			{/* <FilterBy title="Categoria" options={} /> */}
+			<FilterBy
+				title="Categoria"
+				options={data ? data : [{ id: "0", name: "Carregando..." }]}
+			/>
 			<FilterBy
 				title="Ordenar"
 				options={[

@@ -6,6 +6,5 @@ export const fetcher = <T>(
 	url: string,
 	params?: { params: any }
 ): AxiosPromise<T> => {
-	console.log(`${API_URL}${url}`)
 	return axios.get(`${API_URL}${url}`, params ? params : {})
 }

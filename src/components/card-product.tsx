@@ -9,6 +9,7 @@ const Card = styled.div`
 	align-items: center;
 	gap: 16px;
 	padding: 8px;
+	height: 110px;
 
 	cursor: pointer;
 
@@ -37,7 +38,7 @@ const ProductInfo = styled.div`
 	font-family: inherit;
 	font-weight: 300;
 	font-size: 14px;
-	color: var(--text-dark);
+	color: var(--color-dark);
 
 	> h3 {
 		font-size: 16px;
@@ -46,6 +47,11 @@ const ProductInfo = styled.div`
 
 	> p {
 		margin-bottom: 20px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
 	}
 
 	> span {

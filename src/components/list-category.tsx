@@ -2,6 +2,9 @@ import { useCategories } from "@/hooks/useCategories"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import styled from "styled-components"
+import { Loader } from "./loader"
+import { useFilter } from "@/hooks/useFilter"
+import { useEffect } from "react"
 
 const Container = styled.section`
 	display: grid;
@@ -46,11 +49,15 @@ const Card = styled.div`
 
 export function ListCategory() {
 	const { data, isLoading } = useCategories()
+	const { setType } = useFilter()
 	const route = useRouter()
 
 	const handleNavigate = (id: string) => {
-		route.push(`/categories/${id}`)
+		route.push(`/categories/id/?categoryId=${id}`)
+		setType(id)
 	}
+
+	if (isLoading) return <Loader />
 
 	return (
 		<Container>

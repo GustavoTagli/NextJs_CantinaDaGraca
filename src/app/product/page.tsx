@@ -1,34 +1,13 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client"
 
+import { BackBtn } from "@/components/back-btn"
 import { FooterProduct } from "@/components/footer-product"
+import { Loader } from "@/components/loader"
 import { useProduct } from "@/hooks/useProduct"
 import { formatCurrency } from "@/utils/format-currency"
-import { CaretLeft } from "@phosphor-icons/react"
 import Image from "next/image"
-import { useRouter } from "next/navigation"
 import styled from "styled-components"
-
-const BackBtn = styled.button`
-	border-radius: 100%;
-	border: none;
-	background-color: var(--bg-primary);
-
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	position: fixed;
-	top: 12px;
-	left: 12px;
-	width: 32px;
-	height: 32px;
-
-	box-shadow: 0px 0px 4px 0px var(--text-dark);
-
-	> svg {
-		fill: var(--text-blue);
-	}
-`
 
 const ContainerImage = styled.figure`
 	width: 100%;
@@ -46,7 +25,7 @@ const ContainerInfo = styled.section`
 	flex-direction: column;
 	gap: 12px;
 
-	color: var(--text-dark);
+	color: var(--color-dark);
 
 	> h2 {
 		font-weight: 500;
@@ -68,22 +47,13 @@ export default function Product({
 }: {
 	searchParams: { id: string }
 }) {
-	const router = useRouter()
 	const { data, isLoading } = useProduct(searchParams.id)
 
-	if (isLoading) {
-		return <p>Loading...</p>
-	}
-
-	const handleNavigate = () => {
-		router.push("/")
-	}
+	if (isLoading) return <Loader />
 
 	return (
 		<main>
-			<BackBtn onClick={handleNavigate}>
-				<CaretLeft size={24} />
-			</BackBtn>
+			<BackBtn />
 			<ContainerImage>
 				<Image
 					src={data?.image || ""}

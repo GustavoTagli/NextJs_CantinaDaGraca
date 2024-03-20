@@ -10,7 +10,7 @@ export const PrimaryInput = styled.input`
 	width: 100%;
 	height: 28px;
 
-	color: var(--text-dark);
+	color: var(--color-dark);
 	font-family: inherit;
 	font-size: 12px;
 
@@ -21,7 +21,7 @@ export const PrimaryInput = styled.input`
 	}
 `
 const Container = styled.div`
-	background-color: var(--bg-primary);
+	background-color: var(--primary-color);
 
 	border-radius: 24px;
 
@@ -36,7 +36,7 @@ const Container = styled.div`
 		top: 50%;
 		transform: translateY(-50%);
 
-		color: var(--text-dark);
+		color: var(--color-dark);
 
 		@media (min-width: ${(props) => props.theme.mediumMobileBreakpoint}) {
 			width: 24px;

@@ -1,21 +1,44 @@
 import { useEffect, useState } from "react"
 
+const setWithExpiry = <T>(key: string, value: T, ttl: number) => {
+	const now = new Date()
+	const item = {
+		value: value,
+		expiry: now.getTime() + ttl
+	}
+	localStorage.setItem(key, JSON.stringify(item))
+}
+
+const getWithExpiry = (key: string) => {
+	const itemStr = localStorage.getItem(key)
+	if (!itemStr) {
+		return null
+	}
+	const item = JSON.parse(itemStr)
+	const now = new Date().getTime()
+	if (now > item.expiry) {
+		localStorage.removeItem(key)
+		return null
+	}
+	return item.value
+}
+
 export function useLocalStorage<T>(item: string, initialValue: T) {
-	const [value, setValue] = useState<T>(initialValue)
+	const [val, setVal] = useState<T>(initialValue)
 
 	useEffect(() => {
 		if (typeof window === "undefined") return
-		let value = localStorage.getItem(item)
-		if (value) setValue(JSON.parse(value))
-	}, [item])
+		let val = getWithExpiry(item)
+		if (val) setVal(val)
+	}, [])
 
 	const updateLocalStorage = (newValue: T) => {
-		setValue(newValue)
-		localStorage.setItem(item, JSON.stringify(newValue))
+		setVal(newValue)
+		setWithExpiry(item, newValue, 1000 * 60 * 60 * 6)
 	}
 
 	return {
-		value,
+		value: val,
 		updateLocalStorage
 	}
 }

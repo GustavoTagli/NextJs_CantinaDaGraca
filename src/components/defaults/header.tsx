@@ -1,13 +1,14 @@
 import { Storefront } from "@phosphor-icons/react"
 import styled from "styled-components"
-import { PrimaryInputWSearchIcon } from "./primary-input"
-import { FilterBar } from "./filter-bar"
+import { PrimaryInputWSearchIcon } from "../primary-input"
+import { FilterBar } from "../filter-bar"
 
 const ContainerHeader = styled.header`
 	display: flex;
 	flex-direction: column;
 	padding: 24px;
 	border-radius: 0 0 40px 0;
+	user-select: none;
 
 	background-image: var(--bg-gradient-blue);
 

@@ -1,17 +1,12 @@
-import { useDataBase } from "@/hooks/useDataBase"
+import { useCategories } from "@/hooks/useCategories"
 import { useFilter } from "@/hooks/useFilter"
 import { CategoryModel } from "@/types/category-model"
 import { PriorityTypes } from "@/types/priority-types"
 import { useState } from "react"
 
-interface OptionModel {
-	id: string
-	name: string
-}
-
 interface FilterByProps {
 	title: string
-	options: OptionModel[]
+	options: CategoryModel[]
 }
 
 export function ClearFilter() {
@@ -30,15 +25,15 @@ export function ClearFilter() {
 export function FilterBy(props: FilterByProps) {
 	const [option, setOption] = useState(props.title)
 	const { setType, setPriority } = useFilter()
-	// const { categories } = useDataBase()
 
 	const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		const value = event.target.value
 		setOption(value)
+
 		if (props.title === "Categoria") {
-			const category = categories.find(
-				(cat) => cat.name === value
-			) as CategoryModel
+			const category = props.options?.find(
+				(category) => category.name === value
+			)
 			setType(category?.id || "")
 		} else if (props.title === "Ordenar") {
 			switch (value) {

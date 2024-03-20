@@ -18,7 +18,7 @@ export function useProducts() {
 
 	const { data, isLoading } = useQuery({
 		queryFn: () => fetcher<ProductModel[]>("/products", params),
-		queryKey: ["products"],
+		queryKey: ["products", type, priority],
 		staleTime: 1000 * 60 * 10
 	})
 

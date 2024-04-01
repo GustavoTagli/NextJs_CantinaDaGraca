@@ -1,16 +1,20 @@
 "use client"
 
-import { HouseLine, SquaresFour } from "@phosphor-icons/react"
 import { useRouter, usePathname } from "next/navigation"
 import styled from "styled-components"
-import { CartControl } from "../tiny/cart-control"
 import { useFilter } from "@/hooks/useFilter"
+import {
+	GearFine,
+	Receipt,
+	ChartBar,
+	Package
+} from "@phosphor-icons/react/dist/ssr"
 
 const TagFooter = styled.footer`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	gap: 44px;
+	gap: 32px;
 	position: fixed;
 	bottom: 0;
 	user-select: none;
@@ -18,7 +22,7 @@ const TagFooter = styled.footer`
 	z-index: 100;
 
 	width: 100%;
-	padding: 10px 0;
+	padding: 10px 16px;
 
 	border-top: 0.5px solid var(--border-dark);
 	background-color: var(--primary-color);
@@ -44,31 +48,35 @@ const TagFooter = styled.footer`
 	}
 `
 
-export function Footer() {
+export function FooterAdmin() {
 	const { setType } = useFilter()
 	const router = useRouter()
 	let path = usePathname()
 
-	const handleNavigate = (e: any) => {
-		router.push("/" + e.currentTarget.id)
+	const handleNavigate = (path: string) => {
+		router.push(path)
 		setType("")
 	}
 
 	return (
 		<TagFooter>
-			<div onClick={handleNavigate} id="">
-				<HouseLine weight={path === "/" ? "fill" : "regular"} />
-				<p>Home</p>
+			<div onClick={() => handleNavigate("/admin")}>
+				<ChartBar weight={path === "/admin" ? "fill" : "regular"} />
+				<p>Dashboard</p>
 			</div>
-			<div onClick={handleNavigate} id="categories">
-				<SquaresFour
-					weight={path.includes("/categories") ? "fill" : "regular"}
+			<div onClick={() => handleNavigate("/admin/manage")}>
+				<GearFine
+					weight={path.includes("/admin/manage") ? "fill" : "regular"}
 				/>
-				<p>Categorias</p>
+				<p>Gerenciar</p>
 			</div>
-			<div onClick={handleNavigate} id="cart">
-				<CartControl />
-				<p>Carrinho</p>
+			<div onClick={() => handleNavigate("/admin/stock")}>
+				<Package weight={path.includes("/admin/stock") ? "fill" : "regular"} />
+				<p>Estoque</p>
+			</div>
+			<div onClick={() => handleNavigate("/admin/orders")}>
+				<Receipt weight={path.includes("/admin/orders") ? "fill" : "regular"} />
+				<p>Pedidos</p>
 			</div>
 		</TagFooter>
 	)

@@ -1,6 +1,6 @@
 import { formatCurrency } from "@/utils/format-currency"
 import Image from "next/image"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import styled from "styled-components"
 
 const Card = styled.div`
@@ -9,7 +9,8 @@ const Card = styled.div`
 	align-items: center;
 	gap: 16px;
 	padding: 8px;
-	height: 110px;
+	height: 120px;
+	width: 100%;
 
 	cursor: pointer;
 
@@ -33,20 +34,21 @@ const Card = styled.div`
 const ProductInfo = styled.div`
 	display: flex;
 	flex-direction: column;
-	gap: 4px;
+	justify-content: space-between;
+	height: 100%;
 
 	font-family: inherit;
 	font-weight: 300;
 	font-size: 14px;
 	color: var(--color-dark);
 
-	> h3 {
+	h3 {
 		font-size: 16px;
 		font-weight: 500;
 	}
 
-	> p {
-		margin-bottom: 20px;
+	p {
+		// margin-bottom: 20px;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		display: -webkit-box;
@@ -54,8 +56,24 @@ const ProductInfo = styled.div`
 		-webkit-box-orient: vertical;
 	}
 
-	> span {
-		font-weight: 500;
+	> div {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+
+	> div:nth-child(2) {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 12px;
+
+		> span {
+			font-weight: 500;
+
+			> div {
+			}
+		}
 	}
 `
 
@@ -65,21 +83,30 @@ interface CardProductProps {
 	description: string
 	price: number
 	image: string
+	handleclickopen?: () => void
 }
 
 export function CardProduct(props: CardProductProps) {
 	const route = useRouter()
+	const path = usePathname()
 
 	const handleNavigate = () => {
 		route.push("/product/?id=" + props.id)
 	}
 
 	return (
-		<Card onClick={handleNavigate}>
+		<Card
+			// {...props}
+			onClick={!path.includes("admin") ? handleNavigate : props.handleclickopen}
+		>
 			<ProductInfo>
-				<h3>{props.name}</h3>
-				<p>{props.description}</p>
-				<span>{formatCurrency(props.price)}</span>
+				<div>
+					<h3>{props.name}</h3>
+					<p>{props.description}</p>
+				</div>
+				<div>
+					<span>{formatCurrency(props.price)}</span>
+				</div>
 			</ProductInfo>
 			<figure>
 				<Image

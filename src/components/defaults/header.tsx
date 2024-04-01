@@ -2,15 +2,25 @@ import { Storefront } from "@phosphor-icons/react"
 import styled from "styled-components"
 import { PrimaryInputWSearchIcon } from "../primary-input"
 import { FilterBar } from "../filter-bar"
+import { usePathname } from "next/navigation"
+import { useFilter } from "@/hooks/useFilter"
 
 const ContainerHeader = styled.header`
 	display: flex;
 	flex-direction: column;
 	padding: 24px;
-	border-radius: 0 0 40px 0;
+	border-radius: 0 0 48px 0;
 	user-select: none;
 
 	background-image: var(--bg-gradient-blue);
+
+	> h2 {
+		font-size: 20px;
+		color: var(--primary-color);
+		font-weight: 700;
+
+		margin-top: 8px;
+	}
 
 	div:first-child {
 		display: flex;
@@ -65,12 +75,19 @@ const HeaderDetail = styled.span`
 		height: 100%;
 		z-index: -1;
 
-		border-radius: 40px 0 0 0;
+		border-radius: 48px 0 0 0;
 		background-color: white;
 	}
 `
 
-export default function Header() {
+export default function Header({ pagename }: { pagename?: string }) {
+	const path = usePathname()
+	const { setSearch } = useFilter()
+
+	const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setSearch(event.target.value)
+	}
+
 	return (
 		<header>
 			<ContainerHeader>
@@ -82,8 +99,20 @@ export default function Header() {
 					</Title>
 					<Storefront color="#fff" />
 				</div>
-				<PrimaryInputWSearchIcon placeholder="Qual a sua fome de hoje?" />
-				<FilterBar />
+
+				{!path.includes("/admin") ? (
+					<>
+						<PrimaryInputWSearchIcon
+							onChange={handleChangeInput}
+							placeholder="Qual a sua fome de hoje?"
+						/>
+						<FilterBar />
+					</>
+				) : (
+					<>
+						<h2>{pagename ? pagename : "Administrador"}</h2>
+					</>
+				)}
 			</ContainerHeader>
 			<HeaderDetail></HeaderDetail>
 		</header>

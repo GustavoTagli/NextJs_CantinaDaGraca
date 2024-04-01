@@ -1,5 +1,6 @@
 import { CartContextProvider } from "@/contexts/cart-context"
 import { FilterContextProvider } from "@/contexts/filter-context"
+import { LoginContextProvider } from "@/contexts/login-context"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ReactNode } from "react"
 import { ThemeProvider } from "styled-components"
@@ -27,11 +28,13 @@ export function DefaultProviders({ children }: DefaultProvidersProps) {
 
 	return (
 		<QueryClientProvider client={client}>
-			<CartContextProvider>
-				<FilterContextProvider>
-					<ThemeProvider theme={theme}>{children}</ThemeProvider>
-				</FilterContextProvider>
-			</CartContextProvider>
+			<LoginContextProvider>
+				<CartContextProvider>
+					<FilterContextProvider>
+						<ThemeProvider theme={theme}>{children}</ThemeProvider>
+					</FilterContextProvider>
+				</CartContextProvider>
+			</LoginContextProvider>
 		</QueryClientProvider>
 	)
 }

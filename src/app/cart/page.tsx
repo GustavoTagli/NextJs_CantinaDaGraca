@@ -2,10 +2,9 @@
 
 import { Footer } from "@/components/defaults/footer"
 import { EmptyCart } from "@/components/empty-cart"
-import { ListProductsInCart } from "@/components/list-products-in-cart"
+import { ListProductsInCart } from "@/components/lists/list-products-in-cart"
 import { useCart } from "@/hooks/useCart"
 import { useOrders } from "@/hooks/useOrders"
-import { create } from "domain"
 import { useState } from "react"
 import styled from "styled-components"
 

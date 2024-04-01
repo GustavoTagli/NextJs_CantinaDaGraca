@@ -4,6 +4,7 @@ import { Montserrat } from "next/font/google"
 import "./globals.css"
 import { DefaultProviders } from "@/components/default-providers"
 import "react-toastify/dist/ReactToastify.css"
+import "react-swipeable-list/dist/styles.css"
 
 const montserrat = Montserrat({
 	weight: ["300", "400", "500", "600", "700", "800"],

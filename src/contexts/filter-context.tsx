@@ -6,10 +6,11 @@ import { ReactNode, createContext, useState } from "react"
 export const FilterContext = createContext({
 	search: "",
 	setSearch: (value: string) => {},
-	priority: PriorityTypes.NEWS,
+	priority: PriorityTypes.ALPHABETICALLY,
 	setPriority: (value: PriorityTypes) => {},
 	type: "",
-	setType: (value: string) => {}
+	setType: (value: string) => {},
+	cleanFilters: () => {}
 })
 
 interface ProviderProps {
@@ -19,7 +20,13 @@ interface ProviderProps {
 export function FilterContextProvider({ children }: ProviderProps) {
 	const [search, setSearch] = useState("")
 	const [type, setType] = useState("")
-	const [priority, setPriority] = useState(PriorityTypes.NEWS)
+	const [priority, setPriority] = useState(PriorityTypes.ALPHABETICALLY)
+
+	const cleanFilters = () => {
+		setSearch("")
+		setType("")
+		setPriority(PriorityTypes.ALPHABETICALLY)
+	}
 
 	return (
 		<FilterContext.Provider
@@ -29,7 +36,8 @@ export function FilterContextProvider({ children }: ProviderProps) {
 				priority,
 				setSearch,
 				setType,
-				setPriority
+				setPriority,
+				cleanFilters
 			}}
 		>
 			{children}

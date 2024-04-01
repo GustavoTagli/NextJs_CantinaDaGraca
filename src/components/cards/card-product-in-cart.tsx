@@ -2,7 +2,7 @@ import { ProductModel } from "@/types/products-model"
 import { formatCurrency } from "@/utils/format-currency"
 import Image from "next/image"
 import styled from "styled-components"
-import { QuantityControl } from "./quantity-control"
+import { QuantityControl } from "../tiny/quantity-control"
 
 const Card = styled.div`
 	position: relative;

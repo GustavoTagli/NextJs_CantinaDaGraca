@@ -8,5 +8,5 @@ export const getFieldPriority = (priority: PriorityTypes) => {
 	if (priority === PriorityTypes.MINOR_PRICE)
 		return { field: "price", order: "asc" }
 
-	return { field: "createdAt", order: "desc" }
+	return { field: "name", order: "asc" }
 }

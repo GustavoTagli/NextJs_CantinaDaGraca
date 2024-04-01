@@ -1,5 +1,3 @@
-"use client"
-
 import { useLocalStorage } from "@/hooks/useLocalStorage"
 import { ProductModel } from "@/types/products-model"
 import { ReactNode, createContext, useEffect, useState } from "react"

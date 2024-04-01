@@ -1,7 +1,7 @@
 import { OrderModel, OrderModelPost } from "@/types/order-model"
 import { fetcher } from "@/utils/fetcher"
 import { useQuery } from "@tanstack/react-query"
-import axios, { Axios, AxiosPromise } from "axios"
+import axios from "axios"
 
 const URL_API = process.env.NEXT_PUBLIC_API_URL
 

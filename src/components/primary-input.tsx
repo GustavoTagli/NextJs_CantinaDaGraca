@@ -1,6 +1,6 @@
 import { useFilter } from "@/hooks/useFilter"
 import { MagnifyingGlass } from "@phosphor-icons/react"
-import { InputHTMLAttributes } from "react"
+import { InputHTMLAttributes, useState } from "react"
 import styled from "styled-components"
 
 export const PrimaryInput = styled.input`
@@ -32,15 +32,15 @@ const Container = styled.div`
 
 	svg {
 		position: absolute;
-		left: 10px;
+		left: 12px;
 		top: 50%;
 		transform: translateY(-50%);
 
 		color: var(--color-dark);
 
 		@media (min-width: ${(props) => props.theme.mediumMobileBreakpoint}) {
-			width: 24px;
-			height: 24px;
+			width: 20px;
+			height: 20px;
 		}
 	}
 `
@@ -48,14 +48,9 @@ const Container = styled.div`
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
 
 export function PrimaryInputWSearchIcon(props: InputProps) {
-	const { setSearch } = useFilter()
-
 	return (
 		<Container>
-			<PrimaryInput
-				onChange={(event) => setSearch(event.target.value)}
-				{...props}
-			/>
+			<PrimaryInput {...props} />
 			<MagnifyingGlass size={18} />
 		</Container>
 	)

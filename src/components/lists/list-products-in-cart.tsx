@@ -1,7 +1,6 @@
 import styled from "styled-components"
-import { CardProductInCart } from "./card-product-in-cart"
+import { CardProductInCart } from "../cards/card-product-in-cart"
 import { useCart } from "@/hooks/useCart"
-import { EmptyCart } from "./empty-cart"
 import { formatCurrency } from "@/utils/format-currency"
 
 const SectionResume = styled.section`

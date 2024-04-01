@@ -1,9 +1,9 @@
 "use client"
 
-import { BackBtn } from "@/components/back-btn"
+import { BackBtn } from "@/components/tiny/back-btn"
 import { Footer } from "@/components/defaults/footer"
-import { ListProducts } from "@/components/list-products"
-import { Loader } from "@/components/loader"
+import { ListProducts } from "@/components/lists/list-products"
+import { Loader } from "@/components/tiny/loader"
 import { useCategory } from "@/hooks/useCategories"
 import { useFilter } from "@/hooks/useFilter"
 import { useProducts } from "@/hooks/useProducts"

@@ -1,4 +1,3 @@
-import { useCategories } from "@/hooks/useCategories"
 import { useFilter } from "@/hooks/useFilter"
 import { CategoryModel } from "@/types/category-model"
 import { PriorityTypes } from "@/types/priority-types"
@@ -50,7 +49,7 @@ export function FilterBy(props: FilterByProps) {
 					setPriority(PriorityTypes.NEWS)
 					break
 				default:
-					setPriority(PriorityTypes.NEWS)
+					setPriority(PriorityTypes.ALPHABETICALLY)
 			}
 		}
 	}

@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client"
 
-import { BackBtn } from "@/components/back-btn"
-import { FooterProduct } from "@/components/footer-product"
-import { Loader } from "@/components/loader"
+import { BackBtn } from "@/components/tiny/back-btn"
+import { FooterProduct } from "@/components/defaults/footer-product"
+import { Loader } from "@/components/tiny/loader"
 import { useProduct } from "@/hooks/useProduct"
 import { formatCurrency } from "@/utils/format-currency"
 import Image from "next/image"

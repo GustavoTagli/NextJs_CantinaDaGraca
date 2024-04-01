@@ -1,16 +1,10 @@
 "use client"
 
 import * as React from "react"
-import {
-	DataGrid,
-	GridColDef,
-	GridRowModel,
-	GridRowsProp
-} from "@mui/x-data-grid"
+import { DataGrid, GridColDef, GridRowModel } from "@mui/x-data-grid"
 import { useProducts } from "@/hooks/useProducts"
 import styled from "styled-components"
 import { useCategories } from "@/hooks/useCategories"
-import { Alert, AlertProps, Snackbar } from "@mui/material"
 import { ProductModel } from "@/types/products-model"
 import { ToastContainer, toast } from "react-toastify"
 

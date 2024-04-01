@@ -1,4 +1,3 @@
-import { useFilter } from "@/hooks/useFilter"
 import { MagnifyingGlass } from "@phosphor-icons/react"
 import { InputHTMLAttributes, useState } from "react"
 import styled from "styled-components"

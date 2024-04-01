@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 "use client"
 
 import { BackBtn } from "@/components/tiny/back-btn"
@@ -75,7 +74,8 @@ export default function Product({
 						description: "",
 						price: 0,
 						image: "",
-						categoryId: ""
+						categoryId: "",
+						quantityInStock: 0
 					}
 				}
 			/>

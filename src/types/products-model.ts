@@ -1,3 +1,12 @@
+import { OrderModel } from "./order-model"
+
+interface ProductOrders {
+	id: number
+	productId: number
+	quantity: number
+	Order: OrderModel
+}
+
 export interface ProductModel {
 	id: string
 	name: string
@@ -7,6 +16,7 @@ export interface ProductModel {
 	quantity?: number
 	categoryId: string
 	image: string
+	orders: ProductOrders[]
 }
 
 export interface ProductModelPost {

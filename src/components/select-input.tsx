@@ -93,7 +93,8 @@ const OptionsContainer = styled.div`
 			align-items: center;
 			justify-content: space-between;
 			width: 100%;
-			font-size: 16px;
+			font-size: 14px;
+			cursor: pointer;
 
 			> div {
 				width: 8px;

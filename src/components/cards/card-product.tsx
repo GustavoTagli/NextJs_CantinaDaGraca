@@ -48,7 +48,6 @@ const ProductInfo = styled.div`
 	}
 
 	p {
-		// margin-bottom: 20px;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		display: -webkit-box;

@@ -16,8 +16,8 @@ export function useProducts() {
 	const params = {
 		params: {
 			category: type ? type : undefined,
-			sortField: getFieldPriority(priority).field,
-			sortOrder: getFieldPriority(priority).order
+			sortField: getFieldPriority(priority).field || undefined,
+			sortOrder: getFieldPriority(priority).order || undefined
 		}
 	}
 
@@ -56,7 +56,7 @@ export function useProducts() {
 			}
 		})
 		refetch()
-		return res
+		return res.data
 	}
 
 	const updateNumericFieldsOfProducts = async (
@@ -74,7 +74,7 @@ export function useProducts() {
 			}
 		)
 		refetch()
-		return res
+		return res.data
 	}
 
 	return {

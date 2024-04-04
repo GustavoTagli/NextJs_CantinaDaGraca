@@ -151,7 +151,7 @@ export default function Stock() {
 				+valueOfField
 			)
 
-			if (res.status !== 200) {
+			if (!res) {
 				alert("Erro ao atualizar estoque")
 				return
 			} else {
@@ -222,7 +222,7 @@ export default function Stock() {
 				</div>
 				<hr />
 				<div>
-					<h1>Produtos</h1>
+					<h1>Gerenciar estoque</h1>
 					<TableStock />
 				</div>
 			</Container>

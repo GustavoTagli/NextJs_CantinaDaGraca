@@ -125,9 +125,11 @@ export function FooterProduct(props: { data: ProductModel }) {
 	) => {
 		const products = event.currentTarget.innerText
 
-		if (products === "+") setQuantity((oldValue) => oldValue + 1)
-		else if (products === "-" && quantity > 1)
-			setQuantity((oldValue) => oldValue - 1)
+		if (quantity === props.data?.quantityInStock && products === "+") return
+
+		if (products === "+" && quantity < props.data?.quantityInStock)
+			setQuantity((oldValue) => oldValue + 1)
+		else if (quantity > 1) setQuantity((oldValue) => oldValue - 1)
 	}
 
 	const handlenavigateToCart = () => {
@@ -145,7 +147,14 @@ export function FooterProduct(props: { data: ProductModel }) {
 						<Minus weight="bold" size={18} />
 					</button>
 					<span>{quantity}</span>
-					<button onClick={handleIncreaseDecrease}>+</button>
+					<button
+						onClick={handleIncreaseDecrease}
+						className={
+							quantity === props.data?.quantityInStock ? "btn-disabled" : ""
+						}
+					>
+						+
+					</button>
 				</IncreaseDecrease>
 				<AddCart onClick={handleAddingToCart}>
 					<p>Adicionar</p>

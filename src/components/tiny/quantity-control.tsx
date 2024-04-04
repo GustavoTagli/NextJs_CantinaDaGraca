@@ -24,6 +24,10 @@ const Container = styled.div`
 	font-weight: 600;
 	color: var(--color-dark-light);
 
+	.btn-disabled {
+		color: var(--color-gray);
+	}
+
 	> button {
 		display: flex;
 		align-items: center;
@@ -46,10 +50,11 @@ const Container = styled.div`
 
 interface QuantityControlProps {
 	id: string
-	quantity: number
+	product: ProductModel
 }
 
-export function QuantityControl({ id, quantity }: QuantityControlProps) {
+export function QuantityControl({ id, product }: QuantityControlProps) {
+	const quantity = product?.quantity || 1
 	const { products, setProducts, updateLocalStorage } = useCart()
 	const [qty, setQty] = useState<number>(quantity)
 
@@ -59,7 +64,7 @@ export function QuantityControl({ id, quantity }: QuantityControlProps) {
 		const text = event.currentTarget.innerText
 		let newCart = [] as ProductModel[]
 
-		if (text === "+") {
+		if (text === "+" && quantity < product.quantityInStock) {
 			newCart = products.map((product: ProductModel) => {
 				if (product.id === id) {
 					return { ...product, quantity: qty + 1 }
@@ -75,7 +80,8 @@ export function QuantityControl({ id, quantity }: QuantityControlProps) {
 				return product
 			})
 			setQty((prev) => prev - 1)
-		} else {
+		} else if (quantity === product.quantityInStock) return
+		else {
 			newCart = products.filter((product: ProductModel) => product.id !== id)
 		}
 		updateLocalStorage(newCart)
@@ -88,7 +94,12 @@ export function QuantityControl({ id, quantity }: QuantityControlProps) {
 				{qty === 1 ? <Trash weight="fill" /> : "-"}
 			</button>
 			<span>{qty}</span>
-			<button onClick={handleQuantityControl}>+</button>
+			<button
+				onClick={handleQuantityControl}
+				className={quantity === product.quantityInStock ? "btn-disabled" : ""}
+			>
+				+
+			</button>
 		</Container>
 	)
 }

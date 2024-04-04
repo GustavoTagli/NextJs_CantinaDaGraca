@@ -33,7 +33,7 @@ export default function Home() {
 			<main>
 				<Header />
 				<Container>
-					<h1>Produtos</h1>
+					<h1>Produtos disponíveis</h1>
 					{data === undefined ? (
 						<p>Nenhum produto encontrado</p>
 					) : isLoading ? (

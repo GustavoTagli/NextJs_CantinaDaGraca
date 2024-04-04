@@ -1,11 +1,23 @@
-export interface ProductOrderModel {
+export interface ProductOrderModelPost {
 	productId: string
 	quantity: number
 }
 
-export interface OrderModel extends OrderModelPost {
+export interface ProductOrderModel {
 	id: string
-	createAt: Date
+	orderId: string
+	productId: string
+	name: string
+	price: number
+	quantity: number
+	quantityInStock: number
+}
+
+export interface OrderModel extends OrderModelPost {
+	id: number
+	orders: ProductOrderModel[]
+	status: number
+	createdAt: Date
 	updatedAt: Date
 	expiryTime: Date
 }
@@ -14,5 +26,5 @@ export interface OrderModelPost {
 	clientname: string
 	observation?: string
 	status?: number
-	orderArray: ProductOrderModel[]
+	orderArray: ProductOrderModelPost[]
 }

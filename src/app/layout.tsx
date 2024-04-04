@@ -2,7 +2,7 @@
 
 import { Montserrat } from "next/font/google"
 import "./globals.css"
-import { DefaultProviders } from "@/components/default-providers"
+import { DefaultProviders } from "@/components/defaults/default-providers"
 import "react-toastify/dist/ReactToastify.css"
 import "react-swipeable-list/dist/styles.css"
 

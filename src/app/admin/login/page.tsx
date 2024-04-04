@@ -127,7 +127,7 @@ export default function Login() {
 					theme: "light"
 				})
 		} catch (error) {
-			console.log("error")
+			console.log("🚀 ~ file: page.tsx ~ handleSignIn ~ error", error)
 		}
 	}
 

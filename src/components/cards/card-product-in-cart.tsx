@@ -54,7 +54,7 @@ export function CardProductInCart(props: ProductModel) {
 				<h3>{props.name}</h3>
 				<span>{formatCurrency(props.price)}</span>
 			</ProductInfo>
-			<QuantityControl id={props.id} quantity={props.quantity || 1} />
+			<QuantityControl id={props.id} product={props} />
 		</Card>
 	)
 }

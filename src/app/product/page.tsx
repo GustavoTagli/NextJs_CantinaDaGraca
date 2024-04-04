@@ -7,6 +7,8 @@ import { useProduct } from "@/hooks/useProduct"
 import { formatCurrency } from "@/utils/format-currency"
 import Image from "next/image"
 import styled from "styled-components"
+import { useEffect } from "react"
+import { io } from "socket.io-client"
 
 const ContainerImage = styled.figure`
 	width: 100%;
@@ -46,7 +48,19 @@ export default function Product({
 }: {
 	searchParams: { id: string }
 }) {
-	const { data, isLoading } = useProduct(searchParams.id)
+	const { data, isLoading, refetchProduct } = useProduct(searchParams.id)
+
+	useEffect(() => {
+		const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL as string)
+
+		socket.on("productsUpdated", () => {
+			refetchProduct()
+		})
+
+		return () => {
+			socket.disconnect()
+		}
+	})
 
 	if (isLoading) return <Loader />
 

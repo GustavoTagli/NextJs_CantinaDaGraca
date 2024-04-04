@@ -48,16 +48,19 @@ export function ListProducts({ products }: { products: ProductModel[] }) {
 		<ContainerProducts>
 			{products.length === 0 && <p>Nenhum produto encontrado</p>}
 			{!pathname.includes("/admin") ? (
-				products?.map((product) => (
-					<CardProduct
-						key={product.id}
-						id={product.id}
-						name={product.name}
-						description={product.description}
-						price={product.price}
-						image={product.image || ""}
-					/>
-				))
+				products?.map((product) => {
+					if (product.quantityInStock > 0)
+						return (
+							<CardProduct
+								key={product.id}
+								id={product.id}
+								name={product.name}
+								description={product.description}
+								price={product.price}
+								image={product.image || ""}
+							/>
+						)
+				})
 			) : (
 				<SwipeableList>
 					{products?.map((product) => (

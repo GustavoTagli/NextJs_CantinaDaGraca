@@ -2,7 +2,7 @@ import { FilterBy } from "./filter-by"
 import styled from "styled-components"
 import { useCategories } from "@/hooks/useCategories"
 
-const FilterContainer = styled.div`
+export const FilterContainer = styled.div`
 	margin-top: 12px;
 
 	display: flex;
@@ -14,10 +14,11 @@ const FilterContainer = styled.div`
 
 		cursor: pointer;
 		outline: none;
-		border: none;
+		border: 1px solid var(--border-dark);
 		border-radius: 24px;
 		height: 28px;
 
+		background-color: var(--primary-color);
 		color: var(--color-dark);
 		font-family: inherit;
 		font-size: 12px;

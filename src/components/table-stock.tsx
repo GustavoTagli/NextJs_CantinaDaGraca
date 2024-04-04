@@ -7,14 +7,17 @@ import styled from "styled-components"
 import { useCategories } from "@/hooks/useCategories"
 import { ProductModel } from "@/types/products-model"
 import { ToastContainer, toast } from "react-toastify"
+import { io } from "socket.io-client"
 
 const Container = styled.div`
 	width: 100%;
 	height: 400px;
 `
 
+const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL as string
+
 export default function TableStock() {
-	const { data, updateProduct } = useProducts()
+	const { data, updateProduct, refetchProducts } = useProducts()
 	const { data: categories } = useCategories()
 
 	const columns: GridColDef[] = [
@@ -50,15 +53,43 @@ export default function TableStock() {
 		}
 	]
 
-	const processRowUpdate = async (newRow: GridRowModel) => {
+	React.useEffect(() => {
+		const socket = io(SOCKET_URL)
+
+		socket.on("ordersUpdated", () => {
+			refetchProducts()
+		})
+
+		return () => {
+			socket.disconnect()
+		}
+	})
+
+	const processRowUpdate = async (
+		newRow: GridRowModel,
+		oldRow: GridRowModel
+	) => {
 		const product = newRow as ProductModel
+		const oldProduct = oldRow as ProductModel
+
+		if (
+			product.quantityInStock === oldProduct.quantityInStock &&
+			product.price === oldProduct.price
+		)
+			return oldRow
+
+		const socket = io(SOCKET_URL)
+
+		socket.emit("productsUpdated")
+
+		socket.disconnect()
 
 		const res = await updateProduct(product.id, product)
 		toast.success("Produto atualizado com sucesso", {
 			position: "top-right",
 			autoClose: 2000
 		})
-		return res.data
+		return res
 	}
 
 	const handleProcessRowUpdateError = React.useCallback((error: Error) => {

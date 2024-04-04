@@ -1,9 +1,9 @@
-import { Storefront } from "@phosphor-icons/react"
 import styled from "styled-components"
 import { PrimaryInputWSearchIcon } from "../primary-input"
 import { FilterBar } from "../filter-bar"
 import { usePathname } from "next/navigation"
 import { useFilter } from "@/hooks/useFilter"
+import { StorefrontTwoTone } from "@mui/icons-material"
 
 const ContainerHeader = styled.header`
 	display: flex;
@@ -14,7 +14,7 @@ const ContainerHeader = styled.header`
 
 	background-image: var(--bg-gradient-blue);
 
-	> h2 {
+	h2 {
 		font-size: 20px;
 		color: var(--primary-color);
 		font-weight: 700;
@@ -22,7 +22,11 @@ const ContainerHeader = styled.header`
 		margin-top: 8px;
 	}
 
-	div:first-child {
+	>div: last-child {
+		margin-top: 40px;
+	}
+
+	> div:first-child {
 		display: flex;
 		justify-content: space-between;
 
@@ -32,6 +36,7 @@ const ContainerHeader = styled.header`
 			border-radius: 50%;
 			width: 80px;
 			height: 80px;
+			color: var(--primary-color);
 
 			@media (min-width: ${(props) => props.theme.mediumMobileBreakpoint}) {
 				width: 105px;
@@ -97,17 +102,16 @@ export default function Header({ pagename }: { pagename?: string }) {
 						da <br />
 						Graça
 					</Title>
-					<Storefront color="#fff" />
+					<StorefrontTwoTone />
 				</div>
-
 				{!path.includes("/admin") ? (
-					<>
+					<div>
 						<PrimaryInputWSearchIcon
 							onChange={handleChangeInput}
 							placeholder="Qual a sua fome de hoje?"
 						/>
 						<FilterBar />
-					</>
+					</div>
 				) : (
 					<>
 						<h2>{pagename ? pagename : "Administrador"}</h2>

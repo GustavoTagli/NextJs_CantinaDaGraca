@@ -8,8 +8,16 @@ import { useProducts } from "@/hooks/useProducts"
 import { useState } from "react"
 import styled from "styled-components"
 import RootLayoutAdmin from "../root-layout-admin"
-import { Plus } from "@phosphor-icons/react"
-import { Button, Dialog, DialogActions } from "@mui/material"
+import AddIcon from "@mui/icons-material/Add"
+import {
+	Button,
+	Dialog,
+	DialogActions,
+	Fab,
+	SxProps,
+	Zoom,
+	useTheme
+} from "@mui/material"
 import { CategoryForm } from "@/components/forms/category-form"
 import { ProductForm } from "@/components/forms/product-form"
 
@@ -59,32 +67,24 @@ const Section = styled.section`
 	}
 `
 
-const AddButton = styled.button`
-	background-color: var(--secondary-color);
-	border: none;
-	outline: none;
-	cursor: pointer;
-	width: 48px;
-	height: 48px;
-	padding: 4px;
-	border-radius: 100%;
-	position: fixed;
-	bottom: 80px;
-	right: 24px;
-
-	svg {
-		width: 100%;
-		height: 100%;
-		color: var(--primary-color);
-	}
-`
+const fabStyle = {
+	position: "fixed",
+	bottom: "80px",
+	right: "24px"
+}
 
 export default function Home() {
+	const theme = useTheme()
 	const [selectedPage, setSelectedPage] = useState("Categorias")
 	const [value, setValue] = useState("")
 	const { cleanFilters, setSearch } = useFilter()
 	const { data } = useProducts()
 	const [open, setOpen] = useState(false)
+
+	const transitionDuration = {
+		enter: theme.transitions.duration.enteringScreen,
+		exit: theme.transitions.duration.leavingScreen
+	}
 
 	const handleChangePage = (event: React.MouseEvent<HTMLLIElement>) => {
 		const target = event.currentTarget.innerText
@@ -143,9 +143,30 @@ export default function Home() {
 							<ListProducts products={data || []} />
 						</>
 					)}
-					<AddButton onClick={handleClick}>
-						<Plus weight="bold" />
-					</AddButton>
+					{Array.from([{ name: "Categorias" }, { name: "Produtos" }]).map(
+						(item, index) => (
+							<Zoom
+								key={index}
+								in={item.name === selectedPage}
+								timeout={transitionDuration}
+								style={{
+									transitionDelay: `${
+										selectedPage === "Produtos" ? transitionDuration.exit : 0
+									}ms`
+								}}
+								unmountOnExit
+							>
+								<Fab
+									sx={fabStyle as SxProps}
+									aria-label={"Add"}
+									color={"primary"}
+									onClick={handleClick}
+								>
+									<AddIcon />
+								</Fab>
+							</Zoom>
+						)
+					)}
 					<Dialog open={open} onClose={handleClose}>
 						{selectedPage === "Categorias" ? <CategoryForm /> : <ProductForm />}
 						<DialogActions>

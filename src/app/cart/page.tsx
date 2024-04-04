@@ -5,6 +5,7 @@ import { EmptyCart } from "@/components/empty-cart"
 import { ListProductsInCart } from "@/components/lists/list-products-in-cart"
 import { useCart } from "@/hooks/useCart"
 import { useOrders } from "@/hooks/useOrders"
+import { AxiosError } from "axios"
 import { useState } from "react"
 import styled from "styled-components"
 
@@ -38,11 +39,15 @@ const Conatiner = styled.main`
 export default function Cart() {
 	const { products } = useCart()
 	const { createOrder } = useOrders()
-	const [client, setClient] = useState(
-		JSON.parse(
-			localStorage.getItem("info-client") || '{"name": "", "lastOrder": ""}'
-		)
-	)
+	const [client, setClient] = useState(() => {
+		if (typeof window !== "undefined") {
+			return JSON.parse(
+				localStorage.getItem("info-client") || '{"name": "", "lastOrder": ""}'
+			)
+		} else {
+			return { name: "", lastOrder: "" }
+		}
+	})
 
 	const handleRequestOrder = async () => {
 		let name = ""
@@ -60,19 +65,26 @@ export default function Cart() {
 		}
 
 		if (name) {
-			const res = await createOrder({
-				clientname: name,
-				orderArray: products.map((p) => ({
-					productId: p.id,
-					quantity: p.quantity || 1
-				}))
-			})
-			const newClient = { name, lastOrder: res.id }
-			setClient(newClient)
-			localStorage.setItem("info-client", JSON.stringify(newClient))
-			alert(
-				`Pedido finalizado com sucesso! Por favor dirija-se ao caixa\n\nN° do pedido: ${res.id}\n\nNome: ${name}`
-			)
+			try {
+				const res = await createOrder({
+					clientname: name,
+					orderArray: products.map((p) => ({
+						productId: p.id,
+						quantity: p.quantity || 1
+					}))
+				})
+				const newClient = { name, lastOrder: res.id }
+				setClient(newClient)
+				localStorage.setItem("info-client", JSON.stringify(newClient))
+				alert(
+					`Pedido finalizado com sucesso! Por favor dirija-se ao caixa\n\nN° do pedido: ${res.id}\n\nNome: ${name}`
+				)
+			} catch (error: any) {
+				console.log("Error on create order: ", error)
+				if (error.response?.status === 400)
+					alert("Quantidade em estoque insuficiente")
+				else alert("Não foi possível finalizar o pedido :(")
+			}
 		} else {
 			alert("Não foi possível finalizar o pedido :(")
 		}

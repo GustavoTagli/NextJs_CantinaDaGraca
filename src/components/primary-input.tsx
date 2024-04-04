@@ -23,10 +23,10 @@ const Container = styled.div`
 	background-color: var(--primary-color);
 
 	border-radius: 24px;
+	border: 1px solid var(--border-dark);
 
 	width: 100%;
 	position: relative;
-	margin-top: 40px;
 	padding-left: 38px;
 
 	svg {

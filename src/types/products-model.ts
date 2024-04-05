@@ -25,5 +25,14 @@ export interface ProductModelPost {
 	price: number
 	quantityInStock: number
 	categoryId: string
-	file: string
+	file: File
+}
+
+export interface ProductModelPut {
+	name?: string
+	description?: string
+	price?: number
+	quantityInStock?: number
+	categoryId?: string
+	file?: File
 }

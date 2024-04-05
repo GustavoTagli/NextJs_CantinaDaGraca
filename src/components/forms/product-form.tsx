@@ -8,7 +8,7 @@ import {
 	RootFormLayout
 } from "./root-form-layout"
 import { useProducts } from "@/hooks/useProducts"
-import { ProductModel } from "@/types/products-model"
+import { ProductModel, ProductModelPut } from "@/types/products-model"
 
 export function ProductForm({
 	product,
@@ -131,15 +131,16 @@ export function ProductForm({
 			return
 		}
 
-		const formData = new FormData()
-		formData.append("name", name)
-		formData.append("price", priceNumber.toString())
-		formData.append("description", description)
-		formData.append("category", category)
-		if (file) formData.append("file", file)
+		const updatedProduct: ProductModelPut = {
+			name,
+			price: priceNumber,
+			description,
+			categoryId: category
+		}
+		if (file) updatedProduct["file"] = file
 
 		try {
-			await updateProduct(product?.id || "", formData)
+			await updateProduct(product?.id || "", updatedProduct)
 			alert("Informações do produto atualizadas")
 			handleclose?.()
 			setForm({

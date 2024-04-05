@@ -1,5 +1,5 @@
 import { useFilter } from "./useFilter"
-import { ProductModel } from "@/types/products-model"
+import { ProductModel, ProductModelPut } from "@/types/products-model"
 import { useDeferredValue } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { fetcher } from "@/utils/fetcher"
@@ -49,7 +49,7 @@ export function useProducts() {
 		refetch()
 	}
 
-	const updateProduct = async (id: string, product: ProductModel) => {
+	const updateProduct = async (id: string, product: ProductModelPut) => {
 		const res = await axios.put(`${API_URL}/api/products/${id}`, product, {
 			headers: {
 				Authorization: token

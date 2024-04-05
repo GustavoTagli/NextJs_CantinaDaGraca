@@ -14,7 +14,7 @@ const Container = styled.div`
 	height: 400px;
 `
 
-const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL as string
+const SOCKET_URL = process.env.NEXT_PUBLIC_API_URL as string
 
 export default function TableStock() {
 	const { data, updateProduct, refetchProducts } = useProducts()
@@ -63,7 +63,7 @@ export default function TableStock() {
 		return () => {
 			socket.disconnect()
 		}
-	})
+	}, [])
 
 	const processRowUpdate = async (
 		newRow: GridRowModel,

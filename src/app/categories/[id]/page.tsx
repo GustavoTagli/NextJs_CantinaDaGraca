@@ -51,7 +51,7 @@ export default function ProductsOfCategory({
 
 	useEffect(() => {
 		setType(categoryId)
-	})
+	}, [])
 
 	if (isLoading) return <Loader />
 

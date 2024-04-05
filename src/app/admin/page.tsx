@@ -6,6 +6,8 @@ import { useProducts } from "@/hooks/useProducts"
 import styled from "styled-components"
 import { useOrders } from "@/hooks/useOrders"
 import { OrderModel } from "@/types/order-model"
+import { useEffect } from "react"
+import { io } from "socket.io-client"
 
 const MainContainer = styled.main`
 	padding: 24px;
@@ -49,13 +51,55 @@ const TopProductsContainer = styled.div`
 	}
 `
 
+function getWeekOfOrder(date: Date) {
+	const weekOfMonth = Math.ceil(new Date(date).getDate() / 7)
+	return `${weekOfMonth}°`
+}
+
+function getProfitOfOrder(order: OrderModel) {
+	const profit = order.orders.reduce(
+		(accum, item) => accum + item.price * item.quantity,
+		0
+	)
+	const hour = new Date(order.createdAt).getHours()
+
+	let period: "manha" | "tarde" | "noite"
+
+	if (hour >= 0 && hour < 15) period = "manha"
+	else if (hour >= 15 && hour < 18) period = "tarde"
+	else period = "noite"
+
+	return { period, profit }
+}
+
 export default function Home() {
-	const { data } = useProducts()
-	const { data: orders } = useOrders()
+	const { data, refetchProducts } = useProducts()
+	const { data: orders, refetchOrders } = useOrders()
+
+	useEffect(() => {
+		const socket = io(process.env.NEXT_PUBLIC_API_URL as string)
+		socket.on("connect", () => {
+			console.log("connected")
+		})
+		socket.on("ordersUpdated", () => {
+			refetchOrders()
+			refetchProducts()
+		})
+
+		socket.on("productsUpdated", () => {
+			refetchProducts()
+		})
+
+		return () => {
+			socket.disconnect()
+		}
+	}, [])
 
 	if (!orders) return null
 	const dataset = orders
 		?.reduce((accum: any, item) => {
+			if (item.status !== 2) return accum
+
 			const now = new Date()
 			const week = getWeekOfOrder(item.createdAt)
 			const { period, profit } = getProfitOfOrder(item)
@@ -80,27 +124,6 @@ export default function Home() {
 		.sort(
 			(a: any, b: any) => +a.week.replace("°", "") - +b.week.replace("°", "")
 		)
-
-	function getWeekOfOrder(date: Date) {
-		const weekOfMonth = Math.ceil(new Date(date).getDate() / 7)
-		return `${weekOfMonth}°`
-	}
-
-	function getProfitOfOrder(order: OrderModel) {
-		const profit = order.orders.reduce(
-			(accum, item) => accum + item.price * item.quantity,
-			0
-		)
-		const hour = new Date(order.createdAt).getHours()
-
-		let period: "manha" | "tarde" | "noite"
-
-		if (hour >= 0 && hour < 15) period = "manha"
-		else if (hour >= 15 && hour < 18) period = "tarde"
-		else period = "noite"
-
-		return { period, profit }
-	}
 
 	const getTopProducts = (number: number) => {
 		const now = new Date()
@@ -151,8 +174,6 @@ export default function Home() {
 
 		return totalSales
 	}
-
-	if (!dataset) return null
 
 	return (
 		<RootLayoutAdmin pagename={"Dashboard"}>

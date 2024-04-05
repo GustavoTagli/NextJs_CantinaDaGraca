@@ -17,7 +17,7 @@ export function useCategories() {
 
 	const { data, isLoading, refetch } = useQuery({
 		queryKey: ["categories"],
-		queryFn: () => fetcher<CategoryModel[]>("/categories"),
+		queryFn: () => fetcher<CategoryModel[]>("/api/categories"),
 		staleTime: 1000 * 60 * 60
 	})
 
@@ -26,7 +26,7 @@ export function useCategories() {
 	)
 
 	const deleteCategory = async (id: string) => {
-		await axios.delete(`${API_URL}/categories/${id}`, {
+		await axios.delete(`${API_URL}/api/categories/${id}`, {
 			headers: { Authorization: token }
 		})
 		refetch()
@@ -34,14 +34,14 @@ export function useCategories() {
 	}
 
 	const createCategory = async (category: FormData) => {
-		await axios.post(`${API_URL}/categories`, category, {
+		await axios.post(`${API_URL}/api/categories`, category, {
 			headers: { Authorization: token }
 		})
 		refetch()
 	}
 
 	const updateCategory = async (id: string, category: FormData) => {
-		await axios.put(`${API_URL}/categories/${id}`, category, {
+		await axios.put(`${API_URL}/api/categories/${id}`, category, {
 			headers: { Authorization: token }
 		})
 		refetch()
@@ -59,7 +59,7 @@ export function useCategories() {
 export function useCategory(id: string) {
 	const { data, isLoading } = useQuery({
 		queryKey: ["category", { id }],
-		queryFn: () => fetcher<CategoryModel>(`/categories/${id}`),
+		queryFn: () => fetcher<CategoryModel>(`/api/categories/${id}`),
 		enabled: !!id,
 		staleTime: 1000 * 60 * 60
 	})

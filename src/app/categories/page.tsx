@@ -17,7 +17,7 @@ export default function Categories() {
 
 	useEffect(() => {
 		cleanFilters()
-	})
+	}, [])
 
 	return (
 		<>

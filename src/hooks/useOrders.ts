@@ -14,12 +14,12 @@ export function useOrders() {
 	const searchDeferred = useDeferredValue(search)
 
 	const createOrder = async (order: OrderModelPost): Promise<OrderModel> => {
-		return await axios.post(`${URL_API}/orders`, order).then((r) => r.data)
+		return await axios.post(`${URL_API}/api/orders`, order).then((r) => r.data)
 	}
 
 	const { data, refetch } = useQuery({
 		queryKey: ["orders", "clientName"],
-		queryFn: () => fetcher<OrderModel[]>("/orders"),
+		queryFn: () => fetcher<OrderModel[]>("/api/orders"),
 		staleTime: 1000 * 60 * 5
 	})
 
@@ -35,7 +35,7 @@ export function useOrders() {
 		observation?: string
 	) => {
 		const data = observation ? { status, observation } : { status }
-		const res = await axios.put(`${URL_API}/orders/status/${id}`, data, {
+		const res = await axios.put(`${URL_API}/api/orders/status/${id}`, data, {
 			headers: {
 				Authorization: token
 			}
@@ -45,7 +45,7 @@ export function useOrders() {
 	}
 
 	const deleteOrder = async (id: number) => {
-		const res = await axios.delete(`${URL_API}/orders/${id}`, {
+		const res = await axios.delete(`${URL_API}/api/orders/${id}`, {
 			headers: {
 				Authorization: token
 			}

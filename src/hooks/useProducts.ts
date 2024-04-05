@@ -23,7 +23,7 @@ export function useProducts() {
 
 	const { data, isLoading, refetch } = useQuery({
 		queryKey: ["products", type, priority],
-		queryFn: () => fetcher<ProductModel[]>("/products", params),
+		queryFn: () => fetcher<ProductModel[]>("/api/products", params),
 		staleTime: 1000 * 60 * 10
 	})
 
@@ -32,7 +32,7 @@ export function useProducts() {
 	)
 
 	const deleteProduct = async (id: string) => {
-		await axios.delete(`${API_URL}/products/${id}`, {
+		await axios.delete(`${API_URL}/api/products/${id}`, {
 			headers: {
 				Authorization: token
 			}
@@ -41,7 +41,7 @@ export function useProducts() {
 	}
 
 	const createProduct = async (product: FormData) => {
-		await axios.post(`${API_URL}/products`, product, {
+		await axios.post(`${API_URL}/api/products`, product, {
 			headers: {
 				Authorization: token
 			}
@@ -50,7 +50,7 @@ export function useProducts() {
 	}
 
 	const updateProduct = async (id: string, product: ProductModel) => {
-		const res = await axios.put(`${API_URL}/products/${id}`, product, {
+		const res = await axios.put(`${API_URL}/api/products/${id}`, product, {
 			headers: {
 				Authorization: token
 			}

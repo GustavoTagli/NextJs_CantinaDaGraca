@@ -9,7 +9,7 @@ export function useAuth() {
 	const generateToken = async (username: string, password: string) => {
 		try {
 			const token = await axios
-				.post(`${API_URL}/admin/login`, {
+				.post(`${API_URL}/api/admin/login`, {
 					username,
 					password
 				})
@@ -30,7 +30,7 @@ export function useAuth() {
 
 		try {
 			const response = await axios
-				.post(`${API_URL}/admin/verify`, null, {
+				.post(`${API_URL}/api/admin/verify`, null, {
 					headers: {
 						Authorization: token
 					}

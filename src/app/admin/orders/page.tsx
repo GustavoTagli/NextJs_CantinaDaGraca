@@ -84,7 +84,7 @@ const StyledTab = styled((props: StyledTabProps) => (
 	}
 }))
 
-const URL_SOCKET = process.env.NEXT_PUBLIC_SOCKET_URL as string
+const URL_SOCKET = process.env.NEXT_PUBLIC_API_URL as string
 
 export default function Orders() {
 	const [value, setValue] = useState(0)

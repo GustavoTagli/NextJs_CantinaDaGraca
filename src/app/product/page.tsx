@@ -51,7 +51,7 @@ export default function Product({
 	const { data, isLoading, refetchProduct } = useProduct(searchParams.id)
 
 	useEffect(() => {
-		const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL as string)
+		const socket = io(process.env.NEXT_PUBLIC_API_URL as string)
 
 		socket.on("productsUpdated", () => {
 			refetchProduct()
@@ -60,9 +60,10 @@ export default function Product({
 		return () => {
 			socket.disconnect()
 		}
-	})
+	}, [])
 
 	if (isLoading) return <Loader />
+	if (!data) return <h1>Produto não encontrado</h1>
 
 	return (
 		<main>
@@ -80,19 +81,7 @@ export default function Product({
 				<p>{data?.description}</p>
 				<span>{formatCurrency(data?.price || 0)}</span>
 			</ContainerInfo>
-			<FooterProduct
-				data={
-					data || {
-						id: "",
-						name: "",
-						description: "",
-						price: 0,
-						image: "",
-						categoryId: "",
-						quantityInStock: 0
-					}
-				}
-			/>
+			<FooterProduct data={data} />
 		</main>
 	)
 }

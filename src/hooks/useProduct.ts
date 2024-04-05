@@ -5,7 +5,7 @@ import { ProductModel } from "@/types/products-model"
 export function useProduct(id: string) {
 	const { data, isLoading, refetch } = useQuery({
 		queryKey: ["product", { id }],
-		queryFn: () => fetcher<ProductModel>(`/products/${id}`),
+		queryFn: () => fetcher<ProductModel>(`/api/products/${id}`),
 		enabled: !!id,
 		staleTime: 1000 * 60 * 5
 	})

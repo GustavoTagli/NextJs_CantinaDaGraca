@@ -24,7 +24,8 @@ export function ListProducts({ products }: { products: ProductModel[] }) {
 		price: 0,
 		image: "",
 		quantityInStock: 0,
-		categoryId: ""
+		categoryId: "",
+		orders: []
 	})
 
 	const handleClickOpen = (product: ProductModel) => {

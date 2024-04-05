@@ -1,5 +1,5 @@
 import { MagnifyingGlass } from "@phosphor-icons/react"
-import { InputHTMLAttributes, useState } from "react"
+import { InputHTMLAttributes } from "react"
 import styled from "styled-components"
 
 export const PrimaryInput = styled.input`

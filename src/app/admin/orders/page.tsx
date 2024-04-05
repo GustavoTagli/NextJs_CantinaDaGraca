@@ -102,7 +102,7 @@ export default function Orders() {
 		return () => {
 			socket.disconnect()
 		}
-	}, [])
+	})
 
 	const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setValueSearch(event.target.value)

@@ -72,15 +72,15 @@ function getProfitOfOrder(order: OrderModel) {
 	return { period, profit }
 }
 
-export default function Home() {
+const URL_SOCKET = process.env.NEXT_PUBLIC_API_URL as string
+
+export default function Dashboard() {
 	const { data, refetchProducts } = useProducts()
 	const { data: orders, refetchOrders } = useOrders()
 
 	useEffect(() => {
-		const socket = io(process.env.NEXT_PUBLIC_API_URL as string)
-		socket.on("connect", () => {
-			console.log("connected")
-		})
+		const socket = io(URL_SOCKET)
+
 		socket.on("ordersUpdated", () => {
 			refetchOrders()
 			refetchProducts()
@@ -93,7 +93,7 @@ export default function Home() {
 		return () => {
 			socket.disconnect()
 		}
-	}, [])
+	})
 
 	if (!orders) return null
 	const dataset = orders

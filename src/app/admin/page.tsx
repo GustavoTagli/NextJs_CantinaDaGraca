@@ -95,7 +95,6 @@ export default function Dashboard() {
 		}
 	})
 
-	if (!orders) return null
 	const dataset = orders
 		?.reduce((accum: any, item) => {
 			if (item.status !== 2) return accum
@@ -209,19 +208,25 @@ export default function Dashboard() {
 				<section>
 					<h1>Análise de caixa do mês</h1>
 					<div>
-						<BarChart
-							dataset={dataset}
-							xAxis={[{ scaleType: "band", dataKey: "week", label: "Semana" }]}
-							yAxis={[{ label: "Caixa" }]}
-							series={[
-								{ dataKey: "manha", label: "Manhã" },
-								{ dataKey: "tarde", label: "Tarde" },
-								{ dataKey: "noite", label: "Noite" }
-							]}
-							grid={{ horizontal: true }}
-							width={330}
-							height={300}
-						/>
+						{orders ? (
+							<BarChart
+								dataset={dataset}
+								xAxis={[
+									{ scaleType: "band", dataKey: "week", label: "Semana" }
+								]}
+								yAxis={[{ label: "Caixa" }]}
+								series={[
+									{ dataKey: "manha", label: "Manhã" },
+									{ dataKey: "tarde", label: "Tarde" },
+									{ dataKey: "noite", label: "Noite" }
+								]}
+								grid={{ horizontal: true }}
+								width={330}
+								height={300}
+							/>
+						) : (
+							<p>Impossível demonstrar dados</p>
+						)}
 					</div>
 				</section>
 			</MainContainer>

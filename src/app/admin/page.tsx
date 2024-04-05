@@ -81,6 +81,10 @@ export default function Dashboard() {
 	useEffect(() => {
 		const socket = io(URL_SOCKET)
 
+		socket.on("connect", () => {
+			console.log("Conectado ao servidor de socket")
+		})
+
 		socket.on("ordersUpdated", () => {
 			refetchOrders()
 			refetchProducts()
@@ -91,9 +95,12 @@ export default function Dashboard() {
 		})
 
 		return () => {
+			console.log("Desconectado do servidor de socket")
 			socket.disconnect()
 		}
 	})
+
+	if (!data || !orders) return <p>Carregando...</p>
 
 	const dataset = orders
 		?.reduce((accum: any, item) => {
@@ -180,35 +187,39 @@ export default function Dashboard() {
 				<section>
 					<h1>Mais vendidos do mês</h1>
 					<TopProductsContainer>
-						{getTopProducts(3)?.map((product) => (
-							<div key={product.id}>
-								<Gauge
-									width={100}
-									height={100}
-									value={product.orders.reduce(
-										(accum, item) => accum + item.quantity,
-										0
-									)}
-									valueMax={getTotalSales()}
-									cornerRadius={"50%"}
-									sx={(theme) => ({
-										[`& .${gaugeClasses.valueText}`]: {
-											fontSize: 24
-										},
-										[`& .${gaugeClasses.valueArc}`]: {
-											fill: "var(--secondary-color)"
-										}
-									})}
-								/>
-								<p>{product.name}</p>
-							</div>
-						))}
+						{orders?.length !== 0 ? (
+							getTopProducts(3)?.map((product) => (
+								<div key={product.id}>
+									<Gauge
+										width={100}
+										height={100}
+										value={product.orders.reduce(
+											(accum, item) => accum + item.quantity,
+											0
+										)}
+										valueMax={getTotalSales()}
+										cornerRadius={"50%"}
+										sx={(theme) => ({
+											[`& .${gaugeClasses.valueText}`]: {
+												fontSize: 24
+											},
+											[`& .${gaugeClasses.valueArc}`]: {
+												fill: "var(--secondary-color)"
+											}
+										})}
+									/>
+									<p>{product.name}</p>
+								</div>
+							))
+						) : (
+							<p>Sem dados para serem exibidos</p>
+						)}
 					</TopProductsContainer>
 				</section>
 				<section>
 					<h1>Análise de caixa do mês</h1>
 					<div>
-						{orders ? (
+						{orders.length !== 0 ? (
 							<BarChart
 								dataset={dataset}
 								xAxis={[
@@ -225,7 +236,7 @@ export default function Dashboard() {
 								height={300}
 							/>
 						) : (
-							<p>Impossível demonstrar dados</p>
+							<p>Sem dados para serem exibidos</p>
 						)}
 					</div>
 				</section>

@@ -65,7 +65,7 @@ export function useProducts() {
 		value: number
 	) => {
 		const res = await axios.put(
-			`${API_URL}/products`,
+			`${API_URL}/api/products`,
 			{ productsId, field, value },
 			{
 				headers: {

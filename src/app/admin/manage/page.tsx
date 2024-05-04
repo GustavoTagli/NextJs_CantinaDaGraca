@@ -13,6 +13,7 @@ import {
 	Button,
 	Dialog,
 	DialogActions,
+	DialogContent,
 	Fab,
 	SxProps,
 	Zoom,
@@ -167,14 +168,25 @@ export default function Home() {
 							</Zoom>
 						)
 					)}
-					<Dialog open={open} onClose={handleClose}>
-						{selectedPage === "Categorias" ? <CategoryForm /> : <ProductForm />}
-						<DialogActions>
-							<Button onClick={handleClose}>Cancelar</Button>
-						</DialogActions>
-					</Dialog>
 				</Section>
 			</main>
+			<Dialog
+				open={open}
+				onClose={handleClose}
+				sx={{
+					".MuiDialog-paper": {
+						width: "100%",
+						maxWidth: "600px"
+					}
+				}}
+			>
+				<DialogContent>
+					{selectedPage === "Categorias" ? <CategoryForm /> : <ProductForm />}
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={handleClose}>Cancelar</Button>
+				</DialogActions>
+			</Dialog>
 		</RootLayoutAdmin>
 	)
 }

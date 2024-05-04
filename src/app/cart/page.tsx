@@ -4,23 +4,23 @@ import { Footer } from "@/components/defaults/footer"
 import { EmptyCart } from "@/components/empty-cart"
 import { ListProductsInCart } from "@/components/lists/list-products-in-cart"
 import { useCart } from "@/hooks/useCart"
-import { useOrders } from "@/hooks/useOrders"
-import { AxiosError } from "axios"
-import { useState } from "react"
 import styled from "styled-components"
+import { UsernameDialog } from "@/components/username-dialog"
+import { useState } from "react"
 
 const Conatiner = styled.main`
 	padding: 24px;
 	padding-bottom: 138px;
 	display: flex;
 	flex-direction: column;
+	height: 100px;
 
 	> div > h2 {
 		font-size: 20px;
 		font-weight: 600;
 	}
 
-	> button {
+	> .order-btn {
 		height: 48px;
 		position: fixed;
 		width: calc(100% - 48px);
@@ -37,62 +37,22 @@ const Conatiner = styled.main`
 `
 
 export default function Cart() {
-	const { products } = useCart()
-	const { createOrder } = useOrders()
-	const [client, setClient] = useState(() => {
-		if (typeof window !== "undefined") {
-			return JSON.parse(
-				localStorage.getItem("info-client") || '{"name": "", "lastOrder": ""}'
-			)
-		} else {
-			return { name: "", lastOrder: "" }
-		}
+	const [usernameDigalogInfo, setUsernameDigalogInfo] = useState({
+		open: false,
+		continue: false
 	})
+	const { products } = useCart()
 
-	const handleRequestOrder = async () => {
-		let name = ""
-
-		if (!client.name) {
-			name =
-				prompt("Insera seu nome e sobrenome para finalizar o pedido:") || ""
-		} else {
-			const confirmName = window.confirm("Continuar como " + client.name + "?")
-			if (confirmName) name = client.name
-			else {
-				name =
-					prompt("Insera seu nome e sobrenome para finalizar o pedido:") || ""
-			}
-		}
-
-		if (name) {
-			try {
-				const res = await createOrder({
-					clientname: name,
-					orderArray: products.map((p) => ({
-						productId: p.id,
-						quantity: p.quantity || 1
-					}))
-				})
-				const newClient = { name, lastOrder: res.id }
-				setClient(newClient)
-				localStorage.setItem("info-client", JSON.stringify(newClient))
-				alert(
-					`Pedido finalizado com sucesso! Por favor dirija-se ao caixa\n\nN° do pedido: ${res.id}\n\nNome: ${name}`
-				)
-			} catch (error: any) {
-				console.log("Error on create order: ", error)
-				if (error.response?.status === 400)
-					alert("Quantidade em estoque insuficiente")
-				else alert("Não foi possível finalizar o pedido :(")
-			}
-		} else {
-			alert("Não foi possível finalizar o pedido :(")
-		}
+	const handleRequestOrder = () => {
+		setUsernameDigalogInfo((prev) => ({
+			...prev,
+			open: true
+		}))
 	}
 
 	return (
 		<>
-			<Conatiner>
+			<Conatiner id="container-cart">
 				<div>
 					<h1>Carrinho</h1>
 					<h2>Produtos selecionados</h2>
@@ -103,11 +63,19 @@ export default function Cart() {
 				) : (
 					<>
 						<ListProductsInCart />
-						<button onClick={handleRequestOrder}>Finalizar pedido</button>
+						<button className="order-btn" onClick={handleRequestOrder}>
+							Finalizar pedido
+						</button>
 					</>
 				)}
 			</Conatiner>
 			<Footer />
+			<UsernameDialog
+				open={usernameDigalogInfo.open}
+				onClose={() =>
+					setUsernameDigalogInfo((prev) => ({ ...prev, open: false }))
+				}
+			/>
 		</>
 	)
 }

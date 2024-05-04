@@ -81,10 +81,6 @@ export default function Dashboard() {
 	useEffect(() => {
 		const socket = io(URL_SOCKET)
 
-		socket.on("connect", () => {
-			console.log("Conectado ao servidor de socket")
-		})
-
 		socket.on("ordersUpdated", () => {
 			refetchOrders()
 			refetchProducts()
@@ -95,12 +91,19 @@ export default function Dashboard() {
 		})
 
 		return () => {
-			console.log("Desconectado do servidor de socket")
 			socket.disconnect()
 		}
-	})
+	}, [])
 
-	if (!data || !orders) return <p>Carregando...</p>
+	if (orders?.length === 0 || orders === undefined)
+		return (
+			<RootLayoutAdmin pagename={"Dashboard"}>
+				<MainContainer>
+					<h2>Sem resultados</h2>
+					<p>Nenhum pedido foi feito ainda para que haja um dashboard</p>
+				</MainContainer>
+			</RootLayoutAdmin>
+		)
 
 	const dataset = orders
 		?.reduce((accum: any, item) => {
@@ -181,63 +184,55 @@ export default function Dashboard() {
 		return totalSales
 	}
 
+	console.log(orders, data)
+
 	return (
 		<RootLayoutAdmin pagename={"Dashboard"}>
 			<MainContainer>
 				<section>
 					<h1>Mais vendidos do mês</h1>
 					<TopProductsContainer>
-						{orders?.length !== 0 ? (
-							getTopProducts(3)?.map((product) => (
-								<div key={product.id}>
-									<Gauge
-										width={100}
-										height={100}
-										value={product.orders.reduce(
-											(accum, item) => accum + item.quantity,
-											0
-										)}
-										valueMax={getTotalSales()}
-										cornerRadius={"50%"}
-										sx={(theme) => ({
-											[`& .${gaugeClasses.valueText}`]: {
-												fontSize: 24
-											},
-											[`& .${gaugeClasses.valueArc}`]: {
-												fill: "var(--secondary-color)"
-											}
-										})}
-									/>
-									<p>{product.name}</p>
-								</div>
-							))
-						) : (
-							<p>Sem dados para serem exibidos</p>
-						)}
+						{getTopProducts(3)?.map((product) => (
+							<div key={product.id}>
+								<Gauge
+									width={100}
+									height={100}
+									value={product.orders.reduce(
+										(accum, item) => accum + item.quantity,
+										0
+									)}
+									valueMax={getTotalSales()}
+									cornerRadius={"50%"}
+									sx={(theme) => ({
+										[`& .${gaugeClasses.valueText}`]: {
+											fontSize: 24
+										},
+										[`& .${gaugeClasses.valueArc}`]: {
+											fill: "var(--secondary-color)"
+										}
+									})}
+								/>
+								<p>{product.name}</p>
+							</div>
+						))}
 					</TopProductsContainer>
 				</section>
 				<section>
 					<h1>Análise de caixa do mês</h1>
 					<div>
-						{orders.length !== 0 ? (
-							<BarChart
-								dataset={dataset}
-								xAxis={[
-									{ scaleType: "band", dataKey: "week", label: "Semana" }
-								]}
-								yAxis={[{ label: "Caixa" }]}
-								series={[
-									{ dataKey: "manha", label: "Manhã" },
-									{ dataKey: "tarde", label: "Tarde" },
-									{ dataKey: "noite", label: "Noite" }
-								]}
-								grid={{ horizontal: true }}
-								width={330}
-								height={300}
-							/>
-						) : (
-							<p>Sem dados para serem exibidos</p>
-						)}
+						<BarChart
+							dataset={dataset}
+							xAxis={[{ scaleType: "band", dataKey: "week", label: "Semana" }]}
+							yAxis={[{ label: "Caixa" }]}
+							series={[
+								{ dataKey: "manha", label: "Manhã" },
+								{ dataKey: "tarde", label: "Tarde" },
+								{ dataKey: "noite", label: "Noite" }
+							]}
+							grid={{ horizontal: true }}
+							width={330}
+							height={300}
+						/>
 					</div>
 				</section>
 			</MainContainer>

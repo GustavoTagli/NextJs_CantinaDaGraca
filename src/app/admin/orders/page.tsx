@@ -2,14 +2,16 @@
 
 import { PrimaryInputWSearchIcon } from "@/components/primary-input"
 import RootLayoutAdmin from "../root-layout-admin"
-import { styled } from "@mui/material/styles"
-import { Tabs, Tab, TabsProps } from "@mui/material"
+import { SxProps, styled } from "@mui/material/styles"
+import { Tabs, Tab, TabsProps, Zoom, Fab, useTheme } from "@mui/material"
 import { useEffect, useState } from "react"
 import { CardOrder } from "@/components/cards/card-order"
 import { useOrders } from "@/hooks/useOrders"
 import io from "socket.io-client"
 import { useFilter } from "@/hooks/useFilter"
 import { EmptyOrders } from "@/components/empty-orders"
+import AddIcon from "@mui/icons-material/Add"
+import { CreateOrderDialog } from "@/components/create-order-dialog"
 
 const MainContainer = styled("main")({
 	display: "flex",
@@ -84,13 +86,26 @@ const StyledTab = styled((props: StyledTabProps) => (
 	}
 }))
 
+const fabStyle = {
+	position: "fixed",
+	bottom: "80px",
+	right: "24px"
+}
+
 const URL_SOCKET = process.env.NEXT_PUBLIC_API_URL as string
 
 export default function Orders() {
+	const theme = useTheme()
 	const [value, setValue] = useState(0)
 	const { data, refetchOrders, deleteOrder } = useOrders()
 	const { setSearch } = useFilter()
 	const [valueSearch, setValueSearch] = useState("")
+	const [openDialog, setOpenDialog] = useState(false)
+
+	const transitionDuration = {
+		enter: theme.transitions.duration.enteringScreen,
+		exit: theme.transitions.duration.leavingScreen
+	}
 
 	useEffect(() => {
 		const socket = io(URL_SOCKET)
@@ -102,7 +117,7 @@ export default function Orders() {
 		return () => {
 			socket.disconnect()
 		}
-	})
+	}, [])
 
 	const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setValueSearch(event.target.value)
@@ -113,6 +128,10 @@ export default function Orders() {
 		setValue(newValue)
 	}
 
+	const handleClick = () => {
+		setOpenDialog(true)
+	}
+
 	return (
 		<RootLayoutAdmin pagename="Pedidos">
 			<MainContainer>
@@ -120,7 +139,7 @@ export default function Orders() {
 					<h1>Fila de pedidos</h1>
 					<p>
 						Total:
-						<span>{data?.length}</span>
+						<span>{data?.filter((item) => item.status === value).length}</span>
 					</p>
 				</div>
 				<PrimaryInputWSearchIcon
@@ -186,7 +205,21 @@ export default function Orders() {
 							)}
 					</ListCards>
 				</section>
+				<Zoom in={true} timeout={transitionDuration} unmountOnExit>
+					<Fab
+						sx={fabStyle as SxProps}
+						aria-label={"Add"}
+						color={"primary"}
+						onClick={handleClick}
+					>
+						<AddIcon />
+					</Fab>
+				</Zoom>
 			</MainContainer>
+			<CreateOrderDialog
+				open={openDialog}
+				onClose={() => setOpenDialog(false)}
+			/>
 		</RootLayoutAdmin>
 	)
 }

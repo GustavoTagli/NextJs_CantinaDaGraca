@@ -14,7 +14,10 @@ export function useOrders() {
 	const searchDeferred = useDeferredValue(search)
 
 	const createOrder = async (order: OrderModelPost): Promise<OrderModel> => {
-		return await axios.post(`${URL_API}/api/orders`, order).then((r) => r.data)
+		const res = await axios
+			.post(`${URL_API}/api/orders`, order)
+			.then((r) => r.data)
+		return res
 	}
 
 	const { data, refetch } = useQuery({

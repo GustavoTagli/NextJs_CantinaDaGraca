@@ -8,6 +8,7 @@ import { useProducts } from "@/hooks/useProducts"
 import { useFilter } from "@/hooks/useFilter"
 import { useEffect } from "react"
 import { Loader } from "@/components/tiny/loader"
+import { io } from "socket.io-client"
 
 const Container = styled.div`
 	margin: 24px;
@@ -21,11 +22,20 @@ const Container = styled.div`
 `
 
 export default function Home() {
-	const { data, isLoading } = useProducts()
+	const { data, isLoading, refetchProducts } = useProducts()
 	const { cleanFilters } = useFilter()
 
 	useEffect(() => {
+		const socket = io(process.env.NEXT_PUBLIC_API_URL as string)
+
+		socket.on("ordersUpdated", () => refetchProducts())
+		socket.on("productsUpdated", () => refetchProducts())
+
 		cleanFilters()
+
+		return () => {
+			socket.disconnect()
+		}
 	}, [])
 
 	return (

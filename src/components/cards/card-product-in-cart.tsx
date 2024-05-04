@@ -3,6 +3,7 @@ import { formatCurrency } from "@/utils/format-currency"
 import Image from "next/image"
 import styled from "styled-components"
 import { QuantityControl } from "../tiny/quantity-control"
+import { QuantityControlDialog } from "../tiny/quantity-control-dialog"
 
 const Card = styled.div`
 	position: relative;
@@ -13,16 +14,21 @@ const Card = styled.div`
 	padding: 12px 4px;
 	height: 100px;
 
-	> figure {
+	.full-screen-img {
 		width: 110px;
 		height: 80px;
+	}
 
-		> img {
-			border-radius: 6px;
-			object-fit: cover;
-			width: inherit;
-			height: inherit;
-		}
+	.dialog-screen-img {
+		width: 80px;
+		height: 60px;
+	}
+
+	img {
+		border-radius: 6px;
+		object-fit: cover;
+		width: inherit;
+		height: inherit;
 	}
 `
 
@@ -34,15 +40,29 @@ const ProductInfo = styled.div`
 	align-self: flex-start;
 
 	h3 {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 1;
+		-webkit-box-orient: vertical;
 		font-size: 14px;
 		font-weight: 500;
 	}
 `
 
-export function CardProductInCart(props: ProductModel) {
+interface CardProductInCartProps extends ProductModel {
+	dialog?: boolean
+	selected?: boolean
+	qty?: number
+	setQuantity?: (value: number) => void
+}
+
+export function CardProductInCart(props: CardProductInCartProps) {
 	return (
 		<Card>
-			<figure>
+			<figure
+				className={props.dialog ? "dialog-screen-img" : "full-screen-img"}
+			>
 				<Image
 					src={props.image}
 					alt="imagem do produto"
@@ -54,7 +74,16 @@ export function CardProductInCart(props: ProductModel) {
 				<h3>{props.name}</h3>
 				<span>{formatCurrency(props.price)}</span>
 			</ProductInfo>
-			<QuantityControl id={props.id} product={props} />
+			{props.dialog ? (
+				<QuantityControlDialog
+					selected={props.selected ? props.selected : false}
+					product={props}
+					quantity={props.qty ? props.qty : 0}
+					setQuantity={props.setQuantity || (() => {})}
+				/>
+			) : (
+				<QuantityControl id={props.id} product={props} />
+			)}
 		</Card>
 	)
 }

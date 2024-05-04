@@ -8,14 +8,9 @@ export const FormContainer = styled.form`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	padding: 24px 12px;
 	align-items: center;
 	gap: 12px;
-	padding: 24px;
-	margin-bottom: 24px;
-	min-width: 320px;
-
-	border-radius: 6px;
-	border: 1px solid var(--border-dark);
 
 	background-color: var(--primary-color);
 

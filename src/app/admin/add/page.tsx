@@ -1,13 +1,11 @@
 "use client"
 
 import { CategoryForm } from "@/components/forms/category-form"
-import { FooterAdmin } from "@/components/defaults/footer-admin"
-import Header from "@/components/defaults/header"
 import { ProductForm } from "@/components/forms/product-form"
 import { UserForm } from "@/components/forms/user-form"
 import { useState } from "react"
 import styled from "styled-components"
-import RootLayoutAdmin from "../../app/admin/root-layout-admin"
+import RootLayoutAdmin from "../root-layout-admin"
 
 const Section = styled.section`
 	padding: 24px 24px 80px 24px;
